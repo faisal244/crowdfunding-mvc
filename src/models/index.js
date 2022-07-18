@@ -1,5 +1,5 @@
-const { Project } = require("./Project");
-const { User } = require("./User");
+const Project = require("./Project");
+const User = require("./User");
 
 Project.belongsTo(User, {
 	foreignKey: "userId",

@@ -1,4 +1,7 @@
-const { Model } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
+
+const connection = require("../config/connection");
+const User = require("./User");
 
 class Project extends Model {}
 
@@ -20,18 +23,17 @@ const schema = {
 	fundingAmount: {
 		type: DataTypes.DECIMAL(10, 2),
 		allowNull: false,
-		validate {
+		validate: {
 			isDecimal: true,
 		},
 	},
-		userId: {
+	userId: {
 		type: DataTypes.INTEGER,
-				references: {
-				model: User,
-					key: "id",
+		references: {
+			model: User,
+			key: "id",
 		},
 	},
-
 };
 
 const options = {
@@ -40,12 +42,8 @@ const options = {
 	underscored: false,
 	freezeTableName: true,
 	modelName: "project",
-	hooks: {
-		beforeCreate: hashPassword,
-	},
 };
-
 
 Project.init(schema, options);
 
-module.exports = { Project };
+module.exports = Project;

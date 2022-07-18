@@ -5,9 +5,17 @@ const connection = require("../config/connection");
 const { hashPassword } = require("../hooks");
 
 class User extends Model {
+	getUser() {
+		return {
+			id: this.id,
+			firstName: this.firstName,
+			lastName: this.lastName,
+			email: this.email,
+		};
+	}
+
 	async checkPassword(password) {
-		// verify password
-		const isValid = await brypt.compare(password, this.password);
+		const isValid = await bcrypt.compare(password, this.password);
 		return isValid;
 	}
 }
@@ -51,6 +59,6 @@ const options = {
 	},
 };
 
-user.init(schema, options);
+User.init(schema, options);
 
-module.exports = { User };
+module.exports = User;
