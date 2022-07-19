@@ -1,13 +1,16 @@
 const express = require("express");
 const path = require("path");
+const exphbs = require("express-handlebars");
 const session = require("express-session");
 const connectSessionSequelize = require("connect-session-sequelize");
 
 const routes = require("./routes");
 const connection = require("./config/connection");
+const helpers = require("./helpers");
 
 const SequelizeStore = connectSessionSequelize(session.Store);
 
+const hbs = exphbs.create({ helpers });
 const app = express();
 
 const PORT = process.env.PORT || 4000;
@@ -26,6 +29,9 @@ const sessionOptions = {
 		db: connection,
 	}),
 };
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
 
 app.use(session(sessionOptions));
 app.use(express.json());

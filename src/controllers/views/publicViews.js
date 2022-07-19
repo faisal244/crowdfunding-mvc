@@ -1,15 +1,14 @@
 const renderLoginPage = (req, res) => {
-	res.send("renderLoginPage");
-};
-const renderSignupPage = (req, res) => {
-	res.send("renderSignupPage");
-};
-const renderHomePage = (req, res) => {
-	res.send("renderHomePage");
+	return res.render("login", { currentPage: "login" });
 };
 
-module.exports = {
-	renderLoginPage,
-	renderSignupPage,
-	renderHomePage,
+const renderSignupPage = (req, res) => {
+	return res.render("signup", { currentPage: "signup" });
 };
+
+const renderHomePage = (req, res) => {
+	const { isLoggedIn } = req.session;
+	return res.render("home", { currentPage: "home", isLoggedIn });
+};
+
+module.exports = { renderLoginPage, renderSignupPage, renderHomePage };
